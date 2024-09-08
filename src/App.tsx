@@ -1,31 +1,28 @@
 import "./App.scss";
-import { MemberCard } from "../src/components/memberCard";
 import { useState } from "react";
 import { ButtonWithLabel } from "./components/buttonWithLabel";
 import Form from "./components/form";
 import { Tabs } from "./components/tabs";
-import { TabTypes, User } from "./types";
+import { TabTypes } from "./types";
 import { useUsers } from "./hooks/useUsers";
+import { Button } from "./components/button";
+import { MemberCards } from "./components/memberCards";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabTypes>(TabTypes.USERS);
 
   const { users, loadUsers, addUser } = useUsers();
 
-  const UsersList = () => (
-    <>
-      {users.map((user, idx) => (
-        <MemberCard user={user} key={user.id} />
-      ))}
-    </>
-  );
-
   return (
     <div className="App">
-      <Tabs onTabSelect={setActiveTab} />
+      <Tabs>
+        <Button onClick={() => setActiveTab(TabTypes.FORM)}>form</Button>
+        <Button onClick={() => setActiveTab(TabTypes.USERS)}>users</Button>
+      </Tabs>
+
       {activeTab === TabTypes.USERS && (
         <>
-          <UsersList />
+          <MemberCards items={users} />
           <ButtonWithLabel onClick={loadUsers}>more users</ButtonWithLabel>
         </>
       )}

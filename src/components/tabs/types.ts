@@ -1,5 +1,4 @@
 import { TabTypes } from "../../types";
+import { PropsWithChildren } from "react";
 
-export type TabProps = {
-  onTabSelect: (type: TabTypes) => void;
-};
+export type TabProps = PropsWithChildren & {};
