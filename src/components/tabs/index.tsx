@@ -1,18 +1,14 @@
 import { Button } from "../button";
+import { TabTypes } from "../../types";
+import { TabProps } from "./types";
+import { FC } from "react";
+import "./style.scss";
 
-export const Tabs = ({ onChange }: { onChange: (tab: boolean) => void }) => {
+export const Tabs: FC<TabProps> = ({ onTabSelect }) => {
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        gap: "15px",
-        justifyContent: "center",
-        marginBottom: "20px",
-      }}
-    >
-      <Button onClick={() => onChange(false)}>form</Button>
-      <Button onClick={() => onChange(true)}>users</Button>
+    <div className="tabs">
+      <Button onClick={() => onTabSelect(TabTypes.FORM)}>form</Button>
+      <Button onClick={() => onTabSelect(TabTypes.USERS)}>users</Button>
     </div>
   );
 };

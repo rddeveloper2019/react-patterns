@@ -1,63 +1,62 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import "./style.scss";
+import { UserMainData } from "../../types";
 
 interface FormProps {
-  onUserAddition: (user: any) => void; // Принимаем функцию для обновления состояния верхнего компонента
+  onSubmit: (user: any) => void; // Принимаем функцию для обновления состояния верхнего компонента
 }
 
-const Form: React.FC<FormProps> = ({ onUserAddition }) => {
-  const [username, setUsername] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [website, setWebsite] = useState<string>("");
+const initialForm: UserMainData = {
+  username: "",
+  phone: "",
+  website: "",
+};
 
-  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPhone(event.target.value);
-  };
-
-  const handlewebsiteChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWebsite(event.target.value);
-  };
+const Form: React.FC<FormProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState<UserMainData>(initialForm);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch("https://jsonplaceholder.typicode.com/users", {
-      method: "POST",
-      body: JSON.stringify({
-        username,
-        phone,
-        website,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((user) => onUserAddition(user));
+    onSubmit(formData);
+    setFormData(initialForm);
   };
+
+  const onFormChange =
+    (field: keyof UserMainData) => (event: ChangeEvent<HTMLInputElement>) => {
+      setFormData({ ...formData, ...{ [field]: event.target.value } });
+    };
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
       <div>
         <label>
           Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
+          <input
+            type="text"
+            value={formData["username"]}
+            onChange={onFormChange("username")}
+          />
         </label>
       </div>
       <div>
         <label>
           Phone:
-          <input type="text" value={phone} onChange={handlePhoneChange} />
+          <input
+            type="text"
+            value={formData["phone"]}
+            onChange={onFormChange("phone")}
+          />
         </label>
       </div>
       <div>
         <label>
           Website:
-          <input type="email" value={website} onChange={handlewebsiteChange} />
+          <input
+            type="email"
+            value={formData["website"]}
+            onChange={onFormChange("website")}
+          />
         </label>
       </div>
       <button className="button" type="submit">
