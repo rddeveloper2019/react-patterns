@@ -5,11 +5,12 @@ import { UserProps } from "./components/memberCard/types";
 import { ButtonWithLabel } from "./components/buttonWithLabel";
 import Form from "./components/form";
 import { Tabs } from "./components/tabs";
+import { User } from "./types";
 
 export default function App() {
-  const [users, setUsers] = useState<UserProps[]>([]);
-  const [moreUsers, setMoreUsers] = useState<UserProps[]>([]);
-  const [addedUser, setAddedUser] = useState<UserProps | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [moreUsers, setMoreUsers] = useState<User[]>([]);
+  const [addedUser, setAddedUser] = useState<User | null>(null);
   const [tabForm, setTabForm] = useState(true);
 
   useEffect(() => {
@@ -24,43 +25,20 @@ export default function App() {
       .then((res) => setMoreUsers(res));
   };
 
-  const handleUserAddition = (user: UserProps) => {
+  const handleUserAddition = (user: User) => {
     setAddedUser(user);
   };
 
   return (
     <div className="App">
       <Tabs onChange={setTabForm} />
-      {!tabForm &&
-        users.map((user) => (
-          <MemberCard
-            name={user.name}
-            phone={user.phone}
-            username={user.username}
-            website={user.website}
-          />
-        ))}
-      {!tabForm &&
-        moreUsers.map((user) => (
-          <MemberCard
-            name={user.name}
-            phone={user.phone}
-            username={user.username}
-            website={user.website}
-          />
-        ))}
+      {!tabForm && users.map((user) => <MemberCard user={user} />)}
+      {!tabForm && moreUsers.map((user) => <MemberCard user={user} />)}
       {!tabForm && (
         <ButtonWithLabel onClick={onButtonClick}>more users</ButtonWithLabel>
       )}
       {tabForm && <Form onUserAddition={handleUserAddition} />}
-      {addedUser && (
-        <MemberCard
-          name={addedUser.name}
-          phone={addedUser.phone}
-          username={addedUser.username}
-          website={addedUser.website}
-        />
-      )}
+      {addedUser && <MemberCard user={addedUser} />}
     </div>
   );
 }
