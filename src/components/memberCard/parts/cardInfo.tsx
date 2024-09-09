@@ -1,14 +1,13 @@
 import "../style.scss";
+import { FC } from "react";
 
-export const CardInfo = ({
-  name = "",
-  phone = "",
-  website = "",
-}: {
+type CardInfoPropsType = {
   name: string;
   phone: string;
   website: string;
-}) => {
+};
+
+export const CardInfo: FC<CardInfoPropsType> = ({ name, phone, website }) => {
   return (
     <div className="info">
       <p className="list-item">Username: {name}</p>

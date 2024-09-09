@@ -1,9 +1,9 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import "./style.scss";
-import { UserMainData } from "../../types";
+import { User, UserMainData } from "../../types";
 
 interface FormProps {
-  onSubmit: (user: any) => void; // Принимаем функцию для обновления состояния верхнего компонента
+  onSubmit: (data: User) => void; // Принимаем функцию для обновления состояния верхнего компонента
 }
 
 const initialForm: UserMainData = {
@@ -18,7 +18,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    onSubmit(formData);
+    onSubmit(formData as User);
     setFormData(initialForm);
   };
 
