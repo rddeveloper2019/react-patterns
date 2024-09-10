@@ -1,5 +1,5 @@
 import "../style.scss";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 type CardInfoPropsType = {
   name: string;
@@ -7,12 +7,14 @@ type CardInfoPropsType = {
   website: string;
 };
 
-export const CardInfo: FC<CardInfoPropsType> = ({ name, phone, website }) => {
-  return (
-    <div className="info">
-      <p className="list-item">Username: {name}</p>
-      <p className="list-item">Phone: {phone}</p>
-      <p className="list-item">Website: {website}</p>
-    </div>
-  );
-};
+export const CardInfo: FC<CardInfoPropsType> = memo(
+  ({ name, phone, website }) => {
+    return (
+      <div className="info">
+        <p className="list-item">Username: {name}</p>
+        <p className="list-item">Phone: {phone}</p>
+        <p className="list-item">Website: {website}</p>
+      </div>
+    );
+  },
+);

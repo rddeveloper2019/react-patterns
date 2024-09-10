@@ -1,4 +1,10 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
+import React, {
+  useState,
+  FormEvent,
+  ChangeEvent,
+  memo,
+  useCallback,
+} from "react";
 import "./style.scss";
 import { User, UserMainData } from "../../types";
 
@@ -12,7 +18,7 @@ const initialForm: UserMainData = {
   website: "",
 };
 
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC<FormProps> = memo(({ onSubmit }) => {
   const [formData, setFormData] = useState<UserMainData>(initialForm);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -22,10 +28,12 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     setFormData(initialForm);
   };
 
-  const onFormChange =
+  const onFormChange = useCallback(
     (field: keyof UserMainData) => (event: ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, ...{ [field]: event.target.value } });
-    };
+    },
+    [formData],
+  );
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
@@ -64,6 +72,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
+});
 
 export default Form;
